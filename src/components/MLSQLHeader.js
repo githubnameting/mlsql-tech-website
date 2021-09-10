@@ -13,7 +13,7 @@ export default class MLSQLHeader extends Component {
       keyword: 'Search docs',
       navs: [
         { text: <FormattedMessage id={"downloads"}/>, url: 'https://mlsql-downloads.kyligence.io' },
-        { text: <FormattedMessage id={"tutorial"}/>, url: 'https://mlsql-docs.kyligence.io/latest/zh-hans//' },
+        { text: <FormattedMessage id={"tutorial"}/>, url: 'https://mlsql-docs.kyligence.io/latest/zh-hans/' },
         { text: <FormattedMessage id={"community"}/>, url: 'https://github.com/allwefantasy/mlsql' },
         { text: <FormattedMessage id={"blog"}/>, url: 'http://blog.mlsql.tech/' },
         { text: <FormattedMessage id={"video"}/>, url: 'https://space.bilibili.com/22610047/video' }

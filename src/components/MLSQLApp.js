@@ -24,7 +24,7 @@ export default class MLSQLApp extends Component {
                                 <a className="p1-bar-item"
                                    href="https://mlsql-downloads.kyligence.io"><FormattedMessage id="download"/></a>
                                 <a className="p1-bar-item"
-                                   href="https://mlsql-docs.kyligence.io/latest/zh-hans//"><FormattedMessage id="started"/></a>
+                                   href="https://mlsql-docs.kyligence.io/latest/zh-hans/"><FormattedMessage id="started"/></a>
                             </div>
                         </div>
                     </div>
