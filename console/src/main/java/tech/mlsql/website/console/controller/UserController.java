@@ -85,6 +85,7 @@ public class UserController {
             userService.activateUser(user);
         } catch (Exception ex) {
             response.sendRedirect("/expired");
+            return null;
         }
 
         response.sendRedirect("/trial");
