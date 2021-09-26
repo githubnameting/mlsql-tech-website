@@ -62,6 +62,9 @@ public class UserService {
     @Value("${mlsql.website.baize.url}")
     private String baizeUrl;
 
+    @Value("${mlsql.website.url}")
+    private String hostUrl;
+
     @Autowired
     private JavaMailSender emailSender;
 
@@ -94,13 +97,13 @@ public class UserService {
         String jwt = JwtUtils.create(username, password, timeout);
 
         SimpleMailMessage message = new SimpleMailMessage();
-        String from  = sender;
+        String from = sender;
         String to = verifyDTO.getEmail();
         message.setFrom(from);
         message.setTo(to);
         message.setSubject("[MLSQL] Account Signup");
         message.setText("Please verify your account by clicking the button below." +
-                "http://10.3.1.62:8080/api/user/verification/"+jwt);
+                hostUrl + "/api/user/verification/" + jwt);
         try {
             emailSender.send(message);
         } catch (MailSendException e) {
@@ -118,7 +121,7 @@ public class UserService {
         if (user != null) {
             if (userInfo.getName().equals(user.getName())) {
                 throw new BaseException("name already exist");
-            } else if (userInfo.getEmail().equals(user.getEmail())){
+            } else if (userInfo.getEmail().equals(user.getEmail())) {
                 throw new BaseException("email already exist");
             }
         }
@@ -153,7 +156,7 @@ public class UserService {
         headers.set("registration", registration);
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.ALL));
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
         ResponseEntity<Integer> response;
 
