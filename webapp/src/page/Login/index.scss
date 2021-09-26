@@ -1,0 +1,27 @@
+.login-page {
+  width: 600px;
+  height: 400px;
+  margin: 0 auto;
+  margin-top: 30px;
+  border: 1px solid #eee;
+  box-shadow: 0 0 10px 0 #eeeeee;
+  &-header {
+    line-height: 60px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+  &-form {
+    padding: 30px 100px;
+    margin: 0 auto;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+  }
+  &-foot {
+    text-align: center;
+    line-height: 60px;
+    a {
+      color: #A82255;
+    }
+  }
+}

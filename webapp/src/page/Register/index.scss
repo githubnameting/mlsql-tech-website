@@ -1,0 +1,86 @@
+.register-page {
+  width: 100%;
+  height: calc(100vh - 100px);
+  margin: 0 auto;
+  display: flex;
+  padding-top: 44px;
+  &-text {
+    flex: 1;
+    padding-right: 40px;
+    border-right: 1px solid rgba(0, 0, 0, 0.14);
+    &-title {
+      color: #383838;
+      font-weight: 600;
+      font-size: 26px;
+      line-height: 38px;
+    }
+    &-min-title {
+      font-size: 14px;
+      line-height: 18px;
+      font-weight: 500;
+      color: #444;
+      margin-top: 8px;
+      .hightlight {
+        color:  #A82255;
+      }
+    }
+    &-card {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 85px;
+      > li {
+        width: 260px;
+        text-align: left;
+        h3 {
+          margin-top: 16px;
+          line-height: 22px;
+          color: #A82255;
+          font-weight: 600;
+        }
+      }
+      &-text {
+        font-weight: 400;
+        font-size: 14px;
+        color: #546174;
+        line-height: 18px;
+      }
+    }
+  }
+  &-form {
+    width: 450px;
+    padding-left: 40px;
+    .register-wrapper {
+      margin-left: -20px;
+      padding-top: 10px;
+      &-gologin {
+        font-size: 14px;
+        line-height: 30px;
+        color: #707273;
+        a {
+          color: #A82255;
+        }
+      }
+    }
+  }
+  .confirm-email {
+    text-align: left;
+    &-title {
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 38px;
+    }
+    &-text {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 22px;
+    }
+    &-resend {
+      margin-top: 16px;
+      .ant-btn {
+        background: #ECF0F8;
+        border-color: #ECF0F8;
+        border-radius: 6px;
+      }
+    }
+  }
+}

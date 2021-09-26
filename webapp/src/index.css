@@ -1,0 +1,423 @@
+body, button, input, select, textarea {
+  font: 12px/1.5 tahoma,arial,'Hiragino Sans GB',\5b8b\4f53,sans-serif; -webkit-font-smoothing: antialiased;
+}
+
+blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul {
+  margin: 0;
+  padding: 0;
+}
+
+body, button, input, select, textarea {
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+}
+
+li { list-style: none; }
+
+.clearfix {
+  height: 0;
+  width: 100%;
+  clear: both;
+}
+
+/* ["#FFB3D0", "#F19CBA", "#E485A5", "#D56F90", "#C7577C", "#B73F68", "#A82255"] */
+.header{
+  background-color: #A82255;
+  color: #fff;
+  position: fixed;
+  z-index: 1;
+  width: 100%;
+  top: 0;
+  left: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #C7577C;
+  height: 60px;
+}
+.ant-btn.ant-btn-lg {
+  border-radius: 6px;
+}
+.ant-btn.ant-btn-primary {
+  background-color: #0875DA;
+}
+.ant-btn.red-btn {
+  background-color: #A82255;
+  color: #fff;
+  border-color: #A82255;
+  border-radius: 6px;
+}
+.ant-btn.red-btn:hover {
+  background-color: #A82255;
+  color: #fff;
+  border-color: #A82255;
+}
+.mr10 {
+  margin-right: 10px;
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #FFB3D0;
+}
+
+.header-wrap {
+  padding: 0 20px;
+}
+
+.logo-color {
+  color: #FFB3D0;
+}
+
+.logo {
+  font-weight: bolder;
+  width: 160px;
+}
+
+.logo a {
+  color: #FFB3D0;
+}
+
+.logo img {
+  float: left;
+  padding-top: 18px;
+}
+
+.header-nav-left {
+  float: left;
+}
+
+.nav-item {
+  padding-left: 20px;
+  float: left;
+  height: 60px;
+  line-height: 60px;
+}
+.nav-item a {
+  color: #fff;
+}
+
+.header-nav-right {
+  float: right;
+}
+
+.nav-search{
+  position: relative;
+  padding-left: 24px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 15px;
+}
+
+.nav-search img {
+  position: absolute;
+  left: 0;
+  top: 5px;
+}
+
+.nav-search-text {
+  background: #C7577C;
+  border: 0;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: inherit;
+  outline: none;
+  border-radius: 4px;
+  padding: 1px 4px;
+  width: 160px;
+}
+
+.nav-small {
+  font-size: 14px;
+}
+
+.nav-gitlab {
+  position: relative;
+  padding-right: 20px;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 14px;
+}
+
+.nav-menu {
+  position: relative;
+  padding-right: 20px;
+  height: 20px;
+  line-height: 20px;
+  margin-top: 24px;
+  text-align: center;
+  float: right;
+  display: none;
+}
+
+.nav-menu:hover {
+  color: #A82255;
+}
+
+.nav-link {
+  display: inline-block;
+  height: 30px;
+  line-height: 30px;
+  margin-top: 14px;
+  padding: 0 10px;
+}
+
+.nav-link-split {
+  display: inline-block;
+  vertical-align: sub;
+  height: 20px;
+  margin-top: 14px;
+  border-left: 1px solid currentColor;
+}
+
+.nav-gitlab img {
+  position: absolute;
+  right: 0;
+  top: 6px;
+}
+.app-page-wrapper {
+  min-width: 960px;
+  max-width: 1260px;
+  margin: 0 auto;
+  padding-top: 60px;
+}
+
+.body {
+  margin-top: 60px;
+  min-width: 960px;
+}
+
+.p1 {
+  /*background: #B73F68;*/
+  padding: 60px 0 70px;
+  /*color: #fff;*/
+}
+
+.p1-wrap {
+  margin: 0 auto;
+  width: 600px;
+  text-align: center;
+}
+
+.p1-logo {
+  /*background: url("./image/mlsql-logo.png") center;*/
+  /*background-size: contain;*/
+  text-align: center;
+  margin: 0;
+  font-size: 45px;
+  letter-spacing: 0.01em;
+  font-weight: bolder;
+}
+
+.p1-logo img {
+  /*position: relative;*/
+  /*clip: rect(100px,0px,0px,100px);*/
+  width: 100%;
+  object-fit:contain;
+}
+
+.p1-text {
+  padding-top: 15px;
+  font-size: 24px;
+  letter-spacing: 0.01em;
+  font-weight: 200;
+}
+
+.p1-bar {
+  padding-top: 40px;
+}
+
+.p1-bar .p1-bar-item a:hover{
+  background-color: #a8175a;
+  color: #fff;
+}
+
+.p1-bar-item {
+  display: inline-block;
+  font-size: 16px;
+  color: #fff;
+  background-color: #A82255;
+  padding: 10px 25px;
+  white-space: nowrap;
+  border-radius: 4px;
+  margin-left: 20px;
+}
+
+.p2-item {
+  padding: 0 20px;
+  margin: 60px auto 65px;
+  width: 90%;
+  min-width: 960px;
+  max-width: 1260px;
+}
+
+.p2-item a {
+  color: #D56F90;
+}
+
+.p2-item a:hover {
+  color: #A82255;
+}
+
+.hr {
+  padding-top: 60px;
+  border-bottom: 1px solid #ececec;
+}
+
+.col-3 {
+  width: 30%;
+  float: left;
+  margin-left: 40px;
+}
+
+.col-3 h2 {
+  margin-bottom: 20px;
+  color: #B73F68;
+  padding-top: 0;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.col-3 p {
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 42em;
+}
+
+.col-1 {
+  margin-bottom: 40px;
+}
+
+.col-1 h2 {
+  max-width: 11em;
+  padding-top: 0;
+  margin-bottom: 20px;
+  color: #B73F68;
+}
+
+.col-1 p {
+  margin-right: 40px;
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.pre-container {
+  /*background-color: #B73F68;*/
+  border-radius: 8px;
+  max-width: 80%;
+  overflow: hidden;
+}
+
+.pre-container h3 {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 20px;
+  background-color: #A82255;
+  border-bottom: 1px solid #C7577C;
+  color: #ccc;
+}
+
+.pre-container-code {
+  overflow: auto;
+  max-height: 400px;
+}
+
+.pre-container-code img {
+  border-radius: 8px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.pre-container pre {
+  font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace;
+  color: #fff;
+  tab-size: 1.5em;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  height: auto !important;
+  margin: 1rem;
+}
+
+.copyright {
+  color: #B73F68;
+  margin-top: 20px;
+}
+
+.nav-lang {
+  cursor: pointer;
+  display: block;
+  position: relative;
+  margin-top: 15px;
+  padding-left: 20px;
+  float: right;
+}
+.nav-menu-drop {
+  position: absolute;
+  right: -10px;
+  padding-top: 20px;
+  background-color: #A82255;
+}
+
+.nav-menu-drop-item {
+  padding: 10px 20px;
+}
+
+.nav-menu-drop-item:hover {
+  background-color: #a8175a;
+}
+
+.user-info img {
+  width: 20px;
+  height: 20px;
+  color: #fff;
+}
+
+@media screen and (max-width:760px) {
+  .body {
+    min-width: auto;
+  }
+
+  .header {
+    overflow: visible;
+  }
+
+  .nav-gitlab,
+  .nav-item{ display: none; }
+
+  .logo { display: block; }
+
+  .p1-wrap {
+    width: 100%;
+  }
+
+  .p2-item {
+    min-width: auto;
+  }
+
+  .col-3 {
+    width: 100%;
+    float: none;
+    margin-left: 0;
+    margin-bottom: 60px;
+  }
+
+  .pre-container {
+    max-width: 100%;
+  }
+
+  .nav-menu {
+    display: block;
+    padding-right: 0;
+  }
+
+  .nav-lang {
+    padding-right: 20px;
+    margin-top: 22px;
+  }
+}
