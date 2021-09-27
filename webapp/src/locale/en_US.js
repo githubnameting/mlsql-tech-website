@@ -53,7 +53,7 @@ load delta.\`public.consumer_complains\` as cc;
 
 !ray on newcc py.wow1 named mlsql_temp_table2;
 `,
-free_trail: 'Free Trail',
+free_trial: 'Free Trial',
 'user.email': "邮箱",
 'user.password': "密码",
 'user.password_confirm': "确认密码",

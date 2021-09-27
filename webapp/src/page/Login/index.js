@@ -1,38 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useIntl } from "react-intl";
 import { Form, Input, Button } from 'antd';
 import './index.scss'
 import { user } from '../../service'
-import { AuthContext } from '../../context/Auth'
 import { useHistory } from 'react-router-dom';
-
-const formItemLayout = {
-  labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
-  },
-  wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 16 },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
 const LoginForm = () => {
   const intl = useIntl();
   const [form] = Form.useForm();
-  const { dispatch } = React.useContext(AuthContext)
   const history = useHistory()
+  const [loading, changeLoading] = useState(false)
 
   const onFinish = (values) => {
     handleLogin(values)
@@ -40,25 +16,18 @@ const LoginForm = () => {
 
   async function handleLogin (values) {
     try {
+      changeLoading(true)
       await user.submitLogin(values)
-      handleGetUerInfo()
       const res = await user.getActivationStatus()
+      changeLoading(false)
       if (res.data.activation) {
         history.push('/trial')
       } else {
         history.push('/activation')
       }
     } catch (e) {
-      console.log(e)
+      changeLoading(false)
     }
-  }
-
-  async function handleGetUerInfo () {
-    try {
-      const res = await user.getUserInfo()
-      const { email, username } = res.data
-      dispatch({ type: 'LOGIN', payload: { email, username } })
-    } catch (e) {}
   }
 
   return (
@@ -68,13 +37,11 @@ const LoginForm = () => {
         <div className="login-page-form">
           <Form
             form={form}
-            {...formItemLayout}
             onFinish={onFinish}
             scrollToFirstError
           >
             <Form.Item
               name="username"
-              label="用户名"
               rules={[
                 {
                   required: true,
@@ -82,12 +49,10 @@ const LoginForm = () => {
                 },
               ]}
             >
-              <Input />
+              <Input placeholder="昵称" />
             </Form.Item>
-
             <Form.Item
               name="password"
-              label={intl.formatMessage({id: 'user.password'})}
               rules={[
                 {
                   required: true,
@@ -96,10 +61,13 @@ const LoginForm = () => {
               ]}
               hasFeedback
             >
-              <Input.Password />
+              <Input.Password placeholder="密码" />
             </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              <Button className="red-btn" type="primary" htmlType="submit">
+            <Form.Item className="login-page-form-forgot" >
+              <a href="/reset_password">忘记密码？</a>
+            </Form.Item>
+            <Form.Item>
+              <Button loading={loading} className="red-btn" type="primary" htmlType="submit">
                 登录
               </Button>
             </Form.Item>

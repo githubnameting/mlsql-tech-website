@@ -32,26 +32,7 @@ li { list-style: none; }
   border-bottom: 1px solid #C7577C;
   height: 60px;
 }
-.ant-btn.ant-btn-lg {
-  border-radius: 6px;
-}
-.ant-btn.ant-btn-primary {
-  background-color: #0875DA;
-}
-.ant-btn.red-btn {
-  background-color: #A82255;
-  color: #fff;
-  border-color: #A82255;
-  border-radius: 6px;
-}
-.ant-btn.red-btn:hover {
-  background-color: #A82255;
-  color: #fff;
-  border-color: #A82255;
-}
-.mr10 {
-  margin-right: 10px;
-}
+
 
 a {
   color: #fff;
@@ -182,6 +163,8 @@ a:hover {
   max-width: 1260px;
   margin: 0 auto;
   padding-top: 60px;
+  min-height: 100vh;
+  position: relative;
 }
 
 .body {

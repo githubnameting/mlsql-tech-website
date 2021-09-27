@@ -1,0 +1,25 @@
+.ant-btn {
+  border-radius: 6px !important;
+}
+.ant-btn.ant-btn-primary {
+  background-color: #0875DA;
+}
+.ant-btn.red-btn {
+  background-color: #A82255;
+  color: #fff;
+  border-color: #A82255;
+  &:hover {
+    background-color: #A82255;
+    color: #fff;
+    border-color: #A82255;
+  }
+}
+.mr10 {
+  margin-right: 10px;
+}
+.page-header-title {
+  color: #383838;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 38px;
+}

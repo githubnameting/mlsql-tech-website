@@ -1,6 +1,11 @@
 .expired-page {
+  width: 320px;
   text-align: center;
   padding-top: 44px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   &-title {
     font-weight: 600;
     font-size: 26px;

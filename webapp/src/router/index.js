@@ -4,6 +4,7 @@ import Login from '../page/Login'
 import Trail from '../page/Trial'
 import Activation from '../page/Activation'
 import Expired from '../page/Expired'
+import ResetPassword from '../page/ResetPassword'
 
 const routers = [
   {
@@ -29,6 +30,10 @@ const routers = [
   {
     path:'/expired',
     component: Expired
+  },
+  {
+    path:'/reset_password',
+    component: ResetPassword
   }
 ]
 export default routers

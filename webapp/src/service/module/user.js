@@ -14,5 +14,7 @@ export default {
   getUserInfo: () => axios.get('/api/user/me'),
   resendEmail: () => axios.post('/api/user/resend_email'), // 重新发送激活邮件
   getActivationStatus: () => axios.get(`/api/user/activation`), // 获取是否激活
-  getBaizeAddress: () => axios.get(`/api/baize/host`) // 获取试用地址
+  getBaizeAddress: () => axios.get(`/api/baize/host`), // 获取试用地址
+  resetPassword: (data) => axios.post(`/api/user/reset_password`, data),
+  sendResetEmail: (data) => axios.post(`/api/user/send_reset_email`, data)
 }
