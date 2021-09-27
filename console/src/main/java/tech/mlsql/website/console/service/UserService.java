@@ -30,7 +30,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +41,6 @@ import tech.mlsql.website.console.bean.dto.UserRegisterDTO;
 import tech.mlsql.website.console.bean.dto.VerifyDTO;
 import tech.mlsql.website.console.bean.entity.UserInfo;
 import tech.mlsql.website.console.dao.UserInfoRepository;
-import tech.mlsql.website.console.exception.AccessDeniedException;
 import tech.mlsql.website.console.exception.BaseException;
 import tech.mlsql.website.console.util.EncryptUtils;
 import tech.mlsql.website.console.util.JacksonUtils;
@@ -53,8 +52,8 @@ import java.util.Collections;
 @Service
 public class UserService {
 
-    @Value("${spring.mail.username}")
-    private String sender;
+    @Value("${spring.mail.fromMail}")
+    private String from;
 
     @Value("${mlsql.website.jwt.timeout:1800}")
     private long timeout;
@@ -66,7 +65,7 @@ public class UserService {
     private String hostUrl;
 
     @Autowired
-    private JavaMailSender emailSender;
+    private JavaMailSenderImpl emailSender;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -97,7 +96,6 @@ public class UserService {
         String jwt = JwtUtils.create(username, password, timeout);
 
         SimpleMailMessage message = new SimpleMailMessage();
-        String from = sender;
         String to = verifyDTO.getEmail();
         message.setFrom(from);
         message.setTo(to);
