@@ -23,9 +23,12 @@ const UserInfo = () => {
       dispatch({ type: 'LOGIN', payload: { email, username } })
     } catch (e) {}
   }
+  const noNeedAuthPath = ['/home', '/register', '/reset_password', 'expired']
 
   useEffect(() => {
-    handleGetUerInfo()
+    if (!noNeedAuthPath.includes(history.location.pathname)) {
+      handleGetUerInfo()
+    }
   }, [])
 
   const handleClick = ({ key }) => {

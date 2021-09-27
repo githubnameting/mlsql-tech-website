@@ -12,11 +12,7 @@ import { useHistory } from 'react-router-dom'
 const MLSQLHome = () => {
   const history = useHistory();
   const handleFreeTrial = () => {
-    window.gtag('event', 'freetrail', {
-      'event_callback': function () {
-        console.log('freetrail')
-      }
-    })
+    window.gtag('event', 'freetrial')
     history.push({ pathname: '/register' })
   }
 
@@ -31,7 +27,7 @@ const MLSQLHome = () => {
                         <p className="p1-text"><FormattedMessage id="desc2"/></p>
                         <div className="p1-bar">
                             <Button size="large" className="red-btn mr10" onClick={handleFreeTrial}>
-                                <FormattedMessage id='free_trail'/>
+                                <FormattedMessage id='free_trial'/>
                             </Button>
                             <Button size="large">
                                 <a href="https://mlsql-downloads.kyligence.io">

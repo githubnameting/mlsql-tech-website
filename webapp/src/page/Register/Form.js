@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useIntl } from "react-intl";
 import { Form, Input, Checkbox, Button } from 'antd';
 import { user } from '../../service'
@@ -32,6 +32,8 @@ const RegisterForm = () => {
   const [form] = Form.useForm();
   const history = useHistory()
   const { dispatch } = useContext(AuthContext);
+  const [loading, changeLoading] = useState(false)
+
 
   const onFinish = (values) => {
     const {
@@ -48,25 +50,19 @@ const RegisterForm = () => {
       telephone,
       company
     }
-    window.gtag('event', 'freetrail', {
-      'event_callback': function () {
-        console.log('test-register')
-      }
-    })
     handleRegister(params)
   };
   const handleRegister = async (params) => {
     try {
+      changeLoading(true)
       await user.submitSignUp(params)
-      window.gtag('event', 'freetrail', {
-        'event_callback': function () {
-          console.log('test')
-        }
-      })
+      changeLoading(false)
+      window.gtag('event', 'register')
       const { name, email } = params
       dispatch({ type: 'LOGIN', payload: { email, username: name } })
       history.push('/activation')
     } catch (e) {
+      changeLoading(false)
     }
   }
   const validatePassword = (rule, value, callback) => {
@@ -184,10 +180,10 @@ const RegisterForm = () => {
           ]}
           {...tailFormItemLayout}
         >
-          <Checkbox> MLSQL 团队有权对试用环境进行维护和数据清理，对于重要文件请及时下载和保存。</Checkbox>
+          <Checkbox className="register-check"> MLSQL 团队有权对试用环境进行维护和数据清理，对于重要文件请及时下载和保存。</Checkbox>
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" size="large" className="red-btn" htmlType="submit">创建账号</Button>
+          <Button loading={loading} type="primary" size="large" className="red-btn" htmlType="submit">创建账号</Button>
           <div className="register-wrapper-gologin">已有账号? 点此<a href="/login">登录</a></div>
         </Form.Item>
       </Form>

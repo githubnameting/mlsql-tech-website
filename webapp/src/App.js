@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 import {IntlProvider} from "react-intl"
 import zh_CN from './locale/zh_CN';
 import en_US from './locale/en_US';
@@ -8,10 +8,9 @@ import Header from './components/MLSQLHeader'
 import routers from './router'
 import { AuthContext } from './context/Auth';
 import initService from './service/handleService'
-// import { initGA } from './components/initGA';
-//     initGA()
     const initialState = {
-        email: null,
+        email: '',
+        username: ''
     };
     const reducer = (state, action) => {
         switch (action.type) {
@@ -19,13 +18,13 @@ import initService from './service/handleService'
             return {
                 ...state,
                 email: action.payload.email,
-                username: action.payload.email
+                username: action.payload.username
             };
         case 'LOGOUT':
             return {
                 ...state,
-                email: null,
-                username: null
+                email: '',
+                username: ''
             };
         default:
             return state;
@@ -35,21 +34,21 @@ let isInitial = false;
 
 const App = () => {
     const history = useHistory();
-    const [lang, changeLang] = React.useState('zh')
-    const [messages, changeMessage] = React.useState(zh_CN)
+    const [lang, changeLang] = useState('zh')
+    const [messages, changeMessage] = useState(zh_CN)
 
     const handleLocaleChange = (lang) => {
         changeLang(lang)
         changeMessage(lang === 'zh' ? zh_CN : en_US)
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         const language = getBrowserLanguage()
         const lang = language.includes('zh') ? 'zh' : 'en'
         handleLocaleChange(lang)
     }, [])
 
-    const [state, dispatch] = React.useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialState);
 
     if (!isInitial) {
         initService(history, dispatch);

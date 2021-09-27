@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd';
+const noNeedAuthPath = ['/home', '/register', '/reset_password', '/expired']
 
 export default function initService(history, dispatch) {
   axios.interceptors.request.use((configs) => {
@@ -15,7 +16,7 @@ export default function initService(history, dispatch) {
         switch (error.response.status) {
           case 401:
             dispatch({ type: 'LOGOUT'})
-            if (pathname !== '/home' && pathname !== '/register') {
+            if (!noNeedAuthPath.includes(pathname)) {
               history.push('/home')
             }
             break
@@ -24,10 +25,8 @@ export default function initService(history, dispatch) {
         }
       }
       const result = error.response.data
-      if (pathname !== '/home' && pathname !== '/register') {
-        const msg = (result && result.msg) || 'Unknow Error'
-        message.error(msg)
-      }
+      const msg = (result && result.msg) || 'Unknow Error'
+      message.error(msg)
       return Promise.reject(error);
     }
   );
