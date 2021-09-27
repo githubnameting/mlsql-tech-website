@@ -60,12 +60,16 @@ spring:
     hibernate:
       ddl-auto: none
   mail:
-    host: smtp.163.com
-    username: admondguo@163.com
-    password: 7894561230abc
-    default-encoding: UTF-8
-    fromMail:
-      sender: admondguo@163.com
+    host: smtp.office365.com
+    username: qi.lin@kyligence.io
+    password: 123456lqLP
+    protocol: smtp
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.timeout: 25000
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.info: true
+    fromMail: mlsql_lab@kyligence.io
+    default-encoding: utf-8
 
 server:
   port: ${mlsql.website.port:8080}
