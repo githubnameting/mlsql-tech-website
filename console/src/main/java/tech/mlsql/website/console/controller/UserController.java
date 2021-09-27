@@ -33,6 +33,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.mlsql.website.console.bean.dto.*;
 import tech.mlsql.website.console.bean.entity.UserInfo;
+import tech.mlsql.website.console.bean.req.ResetPasswordReq;
 import tech.mlsql.website.console.bean.req.UserJoinReq;
 import tech.mlsql.website.console.exception.BaseException;
 import tech.mlsql.website.console.service.UserService;
@@ -64,14 +65,14 @@ public class UserController {
         UserInfo userInfo = userService.createUser(UserInfo.valueOf(userJoinReq));
         request.getSession().setAttribute("username", userInfo.getName());
         // Mailbox verification
-        userService.sendEmail(VerifyDTO.valueOf(userJoinReq));
+        userService.sendRegistrationVerifyEmail(userInfo);
         return new Response<Integer>().data(userInfo.getId());
     }
 
     @ApiOperation("Verify User and Redirect Baize")
     @GetMapping("/user/verification/{verifyCode}")
     public Response<IdNameDTO> verify(@PathVariable("verifyCode") String jwt, HttpServletResponse response) throws IOException {
-        String userName = "";
+        String userName;
         try {
             userName = JwtUtils.getClaim(jwt, "username");
             UserInfo user = userService.findUserByName(userName, false);
@@ -114,14 +115,14 @@ public class UserController {
         if (userInfo == null) {
             throw new BaseException("User not exist");
         }
-        userService.sendEmail(VerifyDTO.valueOf(userInfo));
+        userService.sendRegistrationVerifyEmail(userInfo);
         return new Response<EmailDTO>().data(EmailDTO.valueOf(userInfo.getEmail()));
     }
 
     @ApiOperation("User Login")
     @PostMapping("/user/authentication")
     public Response<String> login(@RequestHeader("Authorization") String basicAuth,
-                                   HttpServletRequest request) {
+                                  HttpServletRequest request) {
         String[] nameAndPwd = Base64Utils.getEmailAndPwd(basicAuth);
 
         String userName = userService.auth(nameAndPwd[0], nameAndPwd[1]);
@@ -150,6 +151,61 @@ public class UserController {
         return new Response<String>().data(username);
     }
 
+    @ApiOperation("Verify User Account Before Reset Password")
+    @PostMapping("/user/send_reset_email")
+    public Response<EmailDTO> verifyAccount(@RequestBody @Validated ResetPasswordReq resetPasswordReq) {
+        String email = resetPasswordReq.getEmail();
+        UserInfo userInfo = userService.findUserByEmail(email, true);
+        if (userInfo == null) {
+            throw new BaseException("User not exist");
+        }
+        // Mailbox verification
+        userService.sendResetPasswordEmail(userInfo);
+        return new Response<EmailDTO>().data(EmailDTO.valueOf(userInfo.getEmail()));
+    }
 
+    @ApiOperation("Verify User and Redirect To Reset Password")
+    @GetMapping("/user/reset/{verifyCode}")
+    public Response<String> verifyAccount(@PathVariable("verifyCode") String jwt, HttpServletResponse response) throws IOException {
+        try {
+            String userName = JwtUtils.getClaim(jwt, "username");
+            UserInfo user = userService.findUserByName(userName, false);
+            if (user == null) {
+                throw new BaseException("User Not Exist");
+            }
+            String password = user.getPassword();
+            if (!JwtUtils.verify(jwt, password)) {
+                throw new BaseException("Link has Expired");
+            }
+        } catch (Exception ex) {
+            response.sendRedirect("/expired?type=reset");
+            return null;
+        }
+        response.sendRedirect(String.format("/reset_password?token=%1$s", jwt));
+        return new Response<String>().data("success");
+    }
 
+    @ApiOperation("Reset Password")
+    @PostMapping("/user/reset_password")
+    public Response<String> resetPassword(@RequestBody @Validated ResetPasswordReq resetPasswordReq) {
+        try {
+            String jwtToken = resetPasswordReq.getToken();
+            String userName = JwtUtils.getClaim(jwtToken, "username");
+
+            UserInfo userInfo = userService.findUserByName(userName, true);
+            if (userInfo == null) {
+                throw new BaseException("Invalid Token");
+            }
+            String password = userInfo.getPassword();
+            if (!JwtUtils.verify(jwtToken, password)) {
+                return new Response<String>().data("fail").code("ML-100400001").msg("Token has Expired");
+            }
+
+            userService.updateUserPassword(userInfo, resetPasswordReq.getPassword());
+            return new Response<String>().data("success");
+        } catch (Exception ex){
+            throw new BaseException("Invalid Token");
+        }
+
+    }
 }

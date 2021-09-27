@@ -24,6 +24,7 @@
 
 package tech.mlsql.website.console.service;
 
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,8 +39,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import tech.mlsql.website.console.bean.dto.UserRegisterDTO;
-import tech.mlsql.website.console.bean.dto.VerifyDTO;
+import tech.mlsql.website.console.bean.entity.EmailTemplate;
 import tech.mlsql.website.console.bean.entity.UserInfo;
+import tech.mlsql.website.console.dao.TemplateRepository;
 import tech.mlsql.website.console.dao.UserInfoRepository;
 import tech.mlsql.website.console.exception.BaseException;
 import tech.mlsql.website.console.util.EncryptUtils;
@@ -47,6 +49,7 @@ import tech.mlsql.website.console.util.JacksonUtils;
 import tech.mlsql.website.console.util.JwtUtils;
 
 import java.util.Collections;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -73,6 +76,11 @@ public class UserService {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private TemplateRepository templateRepository;
+
+    private Map<String, EmailTemplate> emailTemplates;
+
     public String auth(String user, String pwd) {
         UserInfo userInfo = findUserByName(user, true);
 
@@ -89,19 +97,27 @@ public class UserService {
         return userInfo.getName();
     }
 
-    @Async("taskExecutor")
-    public void sendEmail(VerifyDTO verifyDTO) {
-        String username = verifyDTO.getUserName();
-        String password = verifyDTO.getPassword();
-        String jwt = JwtUtils.create(username, password, timeout);
+    public void sendRegistrationVerifyEmail(UserInfo userInfo) {
+        EmailTemplate template = getEmailTemplate(EmailTemplate.Usage.registerVerify);
+        String jwt = JwtUtils.create(userInfo.getName(), userInfo.getPassword(), timeout);
+        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(hostUrl, jwt));
 
+    }
+
+    public void sendResetPasswordEmail(UserInfo userInfo){
+        EmailTemplate template = getEmailTemplate(EmailTemplate.Usage.resetPasswordConfirm);
+        String jwt = JwtUtils.create(userInfo.getName(), userInfo.getPassword(), timeout);
+        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(hostUrl, jwt));
+    }
+
+    @Async("taskExecutor")
+    private void sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        String to = verifyDTO.getEmail();
+
         message.setFrom(from);
         message.setTo(to);
-        message.setSubject("[MLSQL] Account Signup");
-        message.setText("Please verify your account by clicking the button below." +
-                hostUrl + "/api/user/verification/" + jwt);
+        message.setSubject(subject);
+        message.setText(text);
         try {
             emailSender.send(message);
         } catch (MailSendException e) {
@@ -128,8 +144,7 @@ public class UserService {
     }
 
     public UserInfo findUserByName(String userName, boolean isVerified) {
-        UserInfo user = userInfoRepository.findOneByName(userName);
-        return user;
+        return userInfoRepository.findOneByName(userName);
     }
 
     public UserInfo findUserByEmail(String email, boolean isVerified) {
@@ -146,7 +161,18 @@ public class UserService {
         registerBaizeUser(registration);
     }
 
-    public Integer registerBaizeUser(String registration) {
+    @Transactional
+    public void updateUserPassword(UserInfo userInfo, String password) {
+        userInfo.setPassword(EncryptUtils.encrypt(password));
+        userInfoRepository.save(userInfo);
+
+        if (! userInfo.getIsVerified()) return;
+        String resetPasswordStr = JacksonUtils.writeJson(UserRegisterDTO.valueOf(userInfo));
+        String resetPasswordHeader = EncryptUtils.encrypt(resetPasswordStr);
+        resetBaizeUserPassword(resetPasswordHeader);
+    }
+
+    private Integer registerBaizeUser(String registration) {
 
         String url = baizeUrl + "/api/user/register";
 
@@ -169,4 +195,32 @@ public class UserService {
         return response.getBody();
     }
 
+    private void resetBaizeUserPassword(String resetPasswordHeader){
+
+        String url = baizeUrl + "/api/user/reset_password";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("reset-password", resetPasswordHeader);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setAccept(Collections.singletonList(MediaType.ALL));
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        try {
+            ResponseEntity<Integer> response = restTemplate.postForEntity(url, request, Integer.class);
+            if (response.getStatusCode() != HttpStatus.OK) {
+                throw new BaseException(String.valueOf(response.getBody()));
+            }
+        } catch (Exception ex) {
+            throw new BaseException("Baize Access Denied");
+        }
+    }
+
+    private EmailTemplate getEmailTemplate(String usage) {
+        if (emailTemplates == null) {
+            emailTemplates = Maps.newHashMap();
+            templateRepository.findAll().forEach(t -> emailTemplates.put(t.getUsage(), t));
+        }
+        return emailTemplates.get(usage);
+    }
 }
