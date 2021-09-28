@@ -53,6 +53,8 @@ spring:
       keep-alive: false
       time-between-log-stats-millis: -1
       remove-abandoned: true
+    schema:
+      - classpath:mlsql_website.sql
     initialization-mode: always
   jpa:
     database: MySQL
