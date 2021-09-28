@@ -100,14 +100,14 @@ public class UserService {
     public void sendRegistrationVerifyEmail(UserInfo userInfo) {
         EmailTemplate template = getEmailTemplate(EmailTemplate.Usage.registerVerify);
         String jwt = JwtUtils.create(userInfo.getName(), userInfo.getPassword(), timeout);
-        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(hostUrl, jwt));
+        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(userInfo.getName(), hostUrl, jwt));
 
     }
 
     public void sendResetPasswordEmail(UserInfo userInfo){
         EmailTemplate template = getEmailTemplate(EmailTemplate.Usage.resetPasswordConfirm);
         String jwt = JwtUtils.create(userInfo.getName(), userInfo.getPassword(), timeout);
-        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(hostUrl, jwt));
+        sendEmail(userInfo.getEmail(), template.getSubject(), template.formatContent(userInfo.getName(), hostUrl, jwt));
     }
 
     @Async("taskExecutor")
