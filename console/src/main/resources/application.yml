@@ -63,8 +63,8 @@ spring:
       ddl-auto: none
   mail:
     host: smtp.office365.com
-    username: qi.lin@kyligence.io
-    password: 123456lqLP
+    username: common-user@kyligence.io
+    password: Kylin22016
     protocol: smtp
     properties.mail.smtp.auth: true
     properties.mail.smtp.timeout: 25000
@@ -74,7 +74,7 @@ spring:
     default-encoding: utf-8
 
 server:
-  port: ${mlsql.website.port:8080}
+  port: ${mlsql.website.port:3000}
   address: 0.0.0.0
   tomcat:
     accept-count: 500

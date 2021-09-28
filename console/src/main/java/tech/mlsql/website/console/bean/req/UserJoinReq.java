@@ -38,7 +38,7 @@ public class UserJoinReq {
     @JsonProperty("name")
     private String name;
 
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*(){}|:<>?[/];',./])[A-Za-z0-9~!@#$%^&*(){}|:<>?[/];',./]{8,255}$", message = "password format not match")
+    @Pattern(regexp = "^[A-Za-z0-9~!@#$%^&*(){}|:<>?[/];/',./]+$", message = "password format not match")
     @JsonProperty("password")
     private String password;
 
