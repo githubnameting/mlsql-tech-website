@@ -49,7 +49,7 @@ const LoginForm = () => {
                 },
               ]}
             >
-              <Input placeholder="昵称" />
+              <Input placeholder={intl.formatMessage({id: 'user.username'})} />
             </Form.Item>
             <Form.Item
               name="password"

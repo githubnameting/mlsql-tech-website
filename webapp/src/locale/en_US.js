@@ -70,6 +70,11 @@ free_trial: 'Free Trial',
 'user.username.valid': '仅支持数字，字母，下划线',
 'user.email.valid': '请输入正确的邮箱地址',
 'user.password_confirm.valid': '两次密码不一致',
-'user.phone_number.valid': '手机号码不正确，请检查后重试'
+'user.phone_number.valid': '手机号码不正确，请检查后重试',
+'user.password.valid1': '密码长度为 8~255 个字符',
+'user.password.valid2': '密码至少包含 1 个英文字母',
+'user.password.valid3': '密码至少包含 1 个数字',
+'user.password.valid4': '密码至少包含 1 个特殊字符',
+'user.password.valid5': '密码只能包含英文字母、数字和特殊符号'
 }
 export default en_US

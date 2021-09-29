@@ -6,6 +6,7 @@ import './index.css';
 import './common.scss'
 import 'antd/dist/antd.css';
 import App from './App';
+import "./icons";
 
 ReactDOM.render(
   (

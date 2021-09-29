@@ -45,17 +45,17 @@ const ResetForm = (props) => {
     const reg3 = /.*?[~!@#$%^&*(){}|:<>?[\];\',.\/]/
     const reg = /^[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]+$/
     if (!value && !(value || '').trim()) {
-      return Promise.reject('请输入新密码')
+      return Promise.reject(intl.formatMessage({id: 'user.password.required'}))
     } else if (length < 8 || length > 255) {
-      return Promise.reject('密码长度为 8~255 个字符')
-    } else if (!reg1.test(value)) {
-      return Promise.reject('密码至少包含 1 个英文字母')
-    } else if (!reg2.test(value)) {
-      return Promise.reject('密码至少包含 1 个数字')
-    } else if (!reg3.test(value)) {
-      return Promise.reject('密码至少包含 1 个特殊字符')
-    } else if (!reg.test(value)) {
-      return Promise.reject('密码只能包含英文字母、数字和特殊符号')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid1'}))
+    } else if (!reg1) {
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid2'}))
+    } else if (!reg2) {
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid3'}))
+    } else if (!reg3) {
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid4'}))
+    } else if (!reg) {
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid5'}))
     } else {
       return Promise.resolve()
     }

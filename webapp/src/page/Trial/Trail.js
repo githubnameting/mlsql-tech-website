@@ -25,7 +25,9 @@ const TailBaize = () => {
   }, [state.username])
 
   const handleClickTrial = () => {
-    window.gtag('event', 'useBaize')
+    window.gtag('event', 'useBaize', {
+      username: state.username
+    })
   }
 
   return (
@@ -41,7 +43,7 @@ const TailBaize = () => {
         <span>扫码入群，专业人员及时答疑</span>
       </div>
       <div className="trial-page-text-email">
-        <a href="mailto:MLSQL_LAB@Kyligence.io;"><img src={email} alt="" />联系技术支持</a>
+        <a href="mailto:mlsql_lab@kyligence.io;"><img src={email} alt="" />联系技术支持</a>
       </div>
     </div>
   );

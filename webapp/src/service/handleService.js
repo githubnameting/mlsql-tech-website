@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { message } from 'antd';
-const noNeedAuthPath = ['/home', '/register', '/reset_password', '/expired']
+const noNeedAuthPath = ['/home', '/register', '/reset_password', '/expired', '/expired?type=reset']
 
 export default function initService(history, dispatch) {
   axios.interceptors.request.use((configs) => {

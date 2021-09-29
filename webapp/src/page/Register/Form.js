@@ -4,6 +4,8 @@ import { Form, Input, Checkbox, Button } from 'antd';
 import { user } from '../../service'
 import { useHistory } from 'react-router-dom';
 import { AuthContext } from '../../context/Auth'
+import SvgIcon from '../../components/SvgIcon';
+import { InfoCircleOutlined } from '@ant-design/icons'
 
 const formItemLayout = {
   labelCol: {
@@ -71,17 +73,17 @@ const RegisterForm = () => {
     const reg3 = /.*?[~!@#$%^&*(){}|:<>?[\];\',.\/]/.test(value)
     const reg = /^[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]+$/.test(value)
     if (!value && !(value || '').trim()) {
-      return Promise.reject('请输入密码')
+      return Promise.reject(intl.formatMessage({id: 'user.password.required'}))
     } else if (length < 8 || length > 255) {
-      return Promise.reject('密码长度为 8~255 个字符')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid1'}))
     } else if (!reg1) {
-      return Promise.reject('密码至少包含 1 个英文字母')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid2'}))
     } else if (!reg2) {
-      return Promise.reject('密码至少包含 1 个数字')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid3'}))
     } else if (!reg3) {
-      return Promise.reject('密码至少包含 1 个特殊字符')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid4'}))
     } else if (!reg) {
-      return Promise.reject('密码只能包含英文字母、数字和特殊符号')
+      return Promise.reject(intl.formatMessage({id: 'user.password.valid5'}))
     } else {
       return Promise.resolve()
     }
@@ -93,11 +95,33 @@ const RegisterForm = () => {
       return Promise.resolve()
     }
   }
+  const validateTelephone = (rule, value, callback) => {
+    const reg = /^((13\d)|(14[5,7,9])|(15[0-3,5-9])|(166)|(17[0,1,3,5,7,8])|(18[0-9])|(19[8,9]))\d{8}/
+    if (!(value || '').trim()) {
+      return Promise.reject(intl.formatMessage({id: 'user.phone_number.required'}) )
+    } else if (value.length > 11 || !reg.test(value)){
+      return Promise.reject(intl.formatMessage({id: 'user.phone_number.valid'}))
+    } else {
+      return Promise.resolve()
+    }
+  }
 
   const handleTrim = (key) => {
     const value = form.getFieldValue(key)
     form.setFieldsValue({ [key]: (value || '').trim() })
   }
+  const tooltipInfo = () => (<div className="tooltip">
+    <div className="test">
+      <div className="reset_password-page-form-password-tip-title">安全密码提示：</div>
+      {
+        passwordTips.map(v => (
+          <div key={v} className="reset_password-page-form-password-tip-text"><span className="dot"></span>{v}</div>
+        ))
+      }
+    </div>
+  </div>)
+  const passwordTips = ['密码长度为 8~255 个字符。', '至少包含 1 个英文字母、1 个数字 和 1 个特殊字符。', '特殊字符包括：~!@#$%^&*(){}|:<>?[];\',./']
+  const tipIcon = 'more_info_16'
 
   return (
     <div className="register-wrapper">
@@ -138,6 +162,11 @@ const RegisterForm = () => {
 
         <Form.Item
           name="password"
+          tooltip={{ 
+            title: tooltipInfo,
+            color: '#fff',
+            icon: <InfoCircleOutlined />,
+          }}
           label={intl.formatMessage({id: 'user.password'})}
           rules={[
             {
@@ -189,11 +218,9 @@ const RegisterForm = () => {
         <Form.Item
           name="telephone"
           label={intl.formatMessage({id: 'user.phone_number'})}
-          rules={[{ required: true, message: intl.formatMessage({id: 'user.phone_number.required'}) },
-            {
-              pattern: new RegExp(/^((13\d)|(14[5,7,9])|(15[0-3,5-9])|(166)|(17[0,1,3,5,7,8])|(18[0-9])|(19[8,9]))\d{8}/),
-              message: intl.formatMessage({id: 'user.phone_number.valid'})
-            }
+          rules={[
+            { required: true, message: intl.formatMessage({id: 'user.phone_number.required'}) },
+            { validator: validateTelephone }
           ]}
         >
           <Input onBlur={() => handleTrim('telephone')} />
