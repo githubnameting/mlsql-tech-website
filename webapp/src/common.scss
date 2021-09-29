@@ -1,3 +1,4 @@
+@import './css/variable.scss';
 .ant-btn {
   border-radius: 6px !important;
 }
@@ -5,20 +6,20 @@
   background-color: #0875DA;
 }
 .ant-btn.red-btn {
-  background-color: #A82255;
+  background-color: $color-primary;
   color: #fff;
-  border-color: #A82255;
+  border-color: $color-primary;
   &:hover {
-    background-color: #A82255;
+    background-color: $color-primary;
     color: #fff;
-    border-color: #A82255;
+    border-color: $color-primary;
   }
 }
 .mr10 {
   margin-right: 10px;
 }
 .page-header-title {
-  color: #383838;
+  color: $color-text;
   font-weight: 600;
   font-size: 26px;
   line-height: 38px;

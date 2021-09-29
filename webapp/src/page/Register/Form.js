@@ -34,7 +34,6 @@ const RegisterForm = () => {
   const { dispatch } = useContext(AuthContext);
   const [loading, changeLoading] = useState(false)
 
-
   const onFinish = (values) => {
     const {
       name,
@@ -66,14 +65,38 @@ const RegisterForm = () => {
     }
   }
   const validatePassword = (rule, value, callback) => {
-    const reg = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*(){}|:<>?[\];\',.\/])[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]{8,255}$/
-    if (!value) {
-      return Promise.reject(intl.formatMessage({id: 'user.password.required'}))
-    } else if (!reg.test(value)) {
-      return Promise.reject('密码长度在 8 ~ 255 之间，至少包含 1 个英文字母， 1 个数字和 1 个特殊字符 (~!@#$%^&*(){}|:<>?[];\',./), 不包含非法字符')
+    const length = (value || '').replace(/[^\x00-\xff]/g, 'AA').length
+    const reg1 = /.*?[A-Za-z]/.test(value)
+    const reg2 = /.*?[0-9]/.test(value)
+    const reg3 = /.*?[~!@#$%^&*(){}|:<>?[\];\',.\/]/.test(value)
+    const reg = /^[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]+$/.test(value)
+    if (!value && !(value || '').trim()) {
+      return Promise.reject('请输入密码')
+    } else if (length < 8 || length > 255) {
+      return Promise.reject('密码长度为 8~255 个字符')
+    } else if (!reg1) {
+      return Promise.reject('密码至少包含 1 个英文字母')
+    } else if (!reg2) {
+      return Promise.reject('密码至少包含 1 个数字')
+    } else if (!reg3) {
+      return Promise.reject('密码至少包含 1 个特殊字符')
+    } else if (!reg) {
+      return Promise.reject('密码只能包含英文字母、数字和特殊符号')
     } else {
       return Promise.resolve()
     }
+  }
+  const validateCompany = (rule, value, callback) => {
+    if (!(value || '').trim()) {
+      return Promise.reject('请输入公司名称')
+    } else {
+      return Promise.resolve()
+    }
+  }
+
+  const handleTrim = (key) => {
+    const value = form.getFieldValue(key)
+    form.setFieldsValue({ [key]: (value || '').trim() })
   }
 
   return (
@@ -86,8 +109,13 @@ const RegisterForm = () => {
       >
         <Form.Item
           name="name"
-          label={intl.formatMessage({id: 'user.nickname'})}
-          rules={[{ required: true, message: intl.formatMessage({id: 'user.nickname.required'}) }]}
+          label={intl.formatMessage({id: 'user.username'})}
+          rules={[
+            { required: true, message: intl.formatMessage({id: 'user.username.required'}) },
+            {
+              pattern: new RegExp(/^\w+$/), message: intl.formatMessage({id: 'user.username.valid'})
+            },
+          ]}
         >
           <Input />
         </Form.Item>
@@ -111,9 +139,10 @@ const RegisterForm = () => {
         <Form.Item
           name="password"
           label={intl.formatMessage({id: 'user.password'})}
-          rules={[{
+          rules={[
+            {
               required: true,
-              validator: validatePassword,
+              validator: validatePassword
             },
           ]}
           hasFeedback
@@ -136,7 +165,7 @@ const RegisterForm = () => {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error(intl.formatMessage({id: 'user.password_confirm.required'})));
+                return Promise.reject(new Error(intl.formatMessage({id: 'user.password_confirm.valid'})));
               },
             }),
           ]}
@@ -150,6 +179,7 @@ const RegisterForm = () => {
           rules={[
             {
               required: true,
+              validator: validateCompany,
               message: intl.formatMessage({id: 'user.company.required'}),
             },
           ]}
@@ -162,11 +192,11 @@ const RegisterForm = () => {
           rules={[{ required: true, message: intl.formatMessage({id: 'user.phone_number.required'}) },
             {
               pattern: new RegExp(/^((13\d)|(14[5,7,9])|(15[0-3,5-9])|(166)|(17[0,1,3,5,7,8])|(18[0-9])|(19[8,9]))\d{8}/),
-              message: '手机号码不正确，请检查后重试'
+              message: intl.formatMessage({id: 'user.phone_number.valid'})
             }
           ]}
         >
-          <Input style={{ width: '100%' }} />
+          <Input onBlur={() => handleTrim('telephone')} />
         </Form.Item>
 
         <Form.Item
@@ -175,7 +205,7 @@ const RegisterForm = () => {
           rules={[
             {
               validator: (_, value) =>
-                value ? Promise.resolve() : Promise.reject(new Error('同意后才能创建账号')),
+                value ? Promise.resolve() : Promise.reject(new Error(intl.formatMessage({id:'user.agree.valid'}))),
             },
           ]}
           {...tailFormItemLayout}

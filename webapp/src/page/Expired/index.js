@@ -8,7 +8,6 @@ const Activation = () => {
 
   const { state } = React.useContext(AuthContext);
   const history = useHistory()
-  console.log(history.location.search)
   useEffect(() => {
     if (!history.location.search) {
       setTimeout(() => {
@@ -28,8 +27,8 @@ const Activation = () => {
   return (
     <div className="app-page-wrapper">
       <div className="expired-page">
-      <div className="page-header-icon"><img src={unlinkIcon} alt="" /></div>
-      <div className="page-header-title">链接已失效</div>
+      <div className="expired-page-icon"><img src={unlinkIcon} alt="" /></div>
+      <div className="expired-page-title">链接已失效</div>
         {
           history.location.search ? (
             <div className="expired-page-text">该链接已被使用或已过期</div>

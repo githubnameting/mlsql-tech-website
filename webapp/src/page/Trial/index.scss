@@ -1,10 +1,11 @@
+@import '../../css/variable.scss';
 .trial-page-text {
   text-align: center;
   &-title {
     font-weight: 600;
     font-size: 20px;
     line-height: 38px;
-    color: #383838;
+    color: $color-text;
   }
   &-btn {
     margin-top: 10px;
@@ -13,7 +14,7 @@
   &-email {
     margin-top: 25px;
     a {
-      color: #383838;
+      color: $color-text;
       font-size: 12px;
       img {
         margin-right: 5px;

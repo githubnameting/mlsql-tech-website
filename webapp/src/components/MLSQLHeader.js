@@ -8,7 +8,6 @@ import language from '../image/language.png';
 import {FormattedMessage} from "react-intl";
 import { Menu, Dropdown } from 'antd';
 import UserInfo from './UserInfo'
-// import ReactGA from 'react-ga'
 class MLSQLHeader extends Component {
   constructor(props) {
     super(props);

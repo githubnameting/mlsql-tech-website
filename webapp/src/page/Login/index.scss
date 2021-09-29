@@ -1,3 +1,4 @@
+@import '../../css/variable.scss';
 .login-page {
   position: absolute;
   left: 50%;
@@ -5,8 +6,8 @@
   transform: translate(-50%, -50%);
   width: 768px;
   margin: 0 auto;
-  border: 1px solid #eee;
-  box-shadow: 0 0 10px 0 #eeeeee;
+  border: 1px solid $color-border;
+  box-shadow: 0 0 10px 0 $color-border;
   &-header {
     line-height: 84px;
     text-align: center;
@@ -17,13 +18,13 @@
     padding: 0 220px;
     padding-top: 30px;
     margin: 0 auto;
-    border-top: 1px solid #eee;
+    border-top: 1px solid $color-border;
     &-forgot {
       margin-top: -20px;
       margin-bottom: 16px;
       a {
         font-size: 12px;
-        color: #A82255;
+        color: $color-primary;
       }
       text-align: right;
     }
@@ -35,9 +36,9 @@
     margin-top: 130px;
     padding-bottom: 20px;
     text-align: center;
-    color: #8B99AE;
+    color: $color-disabled;
     a {
-      color: #A82255;
+      color: $color-primary;
     }
   }
 }
