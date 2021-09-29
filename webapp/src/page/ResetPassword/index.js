@@ -14,7 +14,6 @@ const ResetPassword = () => {
     const search = history.location.search
     if (search) {
       const token = search && search.split('token=')[1]
-      console.log(token, 'token')
       changeToken(token)
       const flag = Boolean(token)
       changeFromEmail(flag)

@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Form, Input, Button } from 'antd';
 import './index.scss'
-import { useIntl } from "react-intl";
+import { useIntl } from 'react-intl';
 import { user } from '../../service'
 import emailIcon from '../../image/email.svg'
 import { LeftOutlined } from '@ant-design/icons'

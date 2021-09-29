@@ -1,3 +1,4 @@
+@import '../../css/variable.scss';
 .register-page {
   width: 100%;
   height: calc(100vh - 100px);
@@ -9,7 +10,7 @@
     padding-right: 40px;
     border-right: 1px solid rgba(0, 0, 0, 0.14);
     &-title {
-      color: #383838;
+      color: $color-text;
       font-weight: 600;
       font-size: 26px;
       line-height: 38px;
@@ -21,7 +22,7 @@
       color: #444;
       margin-top: 8px;
       .hightlight {
-        color:  #A82255;
+        color:  $color-primary;
       }
     }
     &-card {
@@ -34,7 +35,7 @@
         h3 {
           margin-top: 16px;
           line-height: 22px;
-          color: #A82255;
+          color: $color-primary;
           font-weight: 600;
         }
       }
@@ -57,7 +58,7 @@
         line-height: 30px;
         color: #707273;
         a {
-          color: #A82255;
+          color: $color-primary;
         }
       }
       .register-check {

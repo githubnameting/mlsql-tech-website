@@ -13,6 +13,8 @@ const ResetForm = (props) => {
   const [loading, changeLoading] = useState(false)
   const history = useHistory()
 
+  const passwordTips = ['密码长度为 8~255 个字符。', '至少包含 1 个英文字母、1 个数字 和 1 个特殊字符。', '特殊字符包括：~!@#$%^&*(){}|:<>?[];\',./']
+
   const onFinish = (values) => {
     const params = {
       password: values.password,
@@ -28,7 +30,6 @@ const ResetForm = (props) => {
       changeHasReset(true)
       onChangeHasRest(true)
       changeLoading(false)
-      console.log(res.data, 'res')
       if (res.code === 'ML-100400001') {
         history.push('/expired?type=reset')
       }
@@ -38,11 +39,23 @@ const ResetForm = (props) => {
   }
 
   const validatePassword = (rule, value, callback) => {
-    const reg = /^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*(){}|:<>?[\];\',.\/])[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]{8,255}$/
-    if (!value) {
-      return Promise.reject(intl.formatMessage({id: 'user.password.required'}))
+    const length = (value || '').replace(/[^\x00-\xff]/g, 'AA').length
+    const reg1 = /.*?[A-Za-z]/
+    const reg2 = /.*?[0-9]/
+    const reg3 = /.*?[~!@#$%^&*(){}|:<>?[\];\',.\/]/
+    const reg = /^[A-Za-z0-9~!@#$%^&*(){}|:<>?[\];\',.\/]+$/
+    if (!value && !(value || '').trim()) {
+      return Promise.reject('请输入新密码')
+    } else if (length < 8 || length > 255) {
+      return Promise.reject('密码长度为 8~255 个字符')
+    } else if (!reg1.test(value)) {
+      return Promise.reject('密码至少包含 1 个英文字母')
+    } else if (!reg2.test(value)) {
+      return Promise.reject('密码至少包含 1 个数字')
+    } else if (!reg3.test(value)) {
+      return Promise.reject('密码至少包含 1 个特殊字符')
     } else if (!reg.test(value)) {
-      return Promise.reject('密码长度在 8 ~ 255 之间，至少包含 1 个英文字母， 1 个数字和 1 个特殊字符 (~!@#$%^&*(){}|:<>?[];\',./), 不包含非法字符')
+      return Promise.reject('密码只能包含英文字母、数字和特殊符号')
     } else {
       return Promise.resolve()
     }
@@ -75,7 +88,7 @@ const ResetForm = (props) => {
                 ]}
                 hasFeedback
               >
-                <Input.Password  placeholder="新密码" />
+                <Input.Password placeholder="新密码" />
               </Form.Item>
 
               <Form.Item
@@ -92,7 +105,7 @@ const ResetForm = (props) => {
                       if (!value || getFieldValue('password') === value) {
                         return Promise.resolve();
                       }
-                      return Promise.reject(new Error(intl.formatMessage({id: 'user.password_confirm.required'})));
+                      return Promise.reject(new Error(intl.formatMessage({id: 'user.password_confirm.valid'})));
                     },
                   }),
                 ]}
@@ -107,9 +120,11 @@ const ResetForm = (props) => {
             </Form>
             <div className="reset_password-page-form-password-tip">
               <div className="reset_password-page-form-password-tip-title">安全密码提示：</div>
-              <div className="reset_password-page-form-password-tip-text"><span className="dot"></span>至少包含 8 个字符。</div>
-              <div className="reset_password-page-form-password-tip-text"><span className="dot"></span>至少包含 1 个英文字母、1 个数字 和 1 个特殊字符。</div>
-              <div className="reset_password-page-form-password-tip-text"><span className="dot"></span>特殊字符包括：~^,./</div>
+              {
+                passwordTips.map(v => (
+                  <div key={v} className="reset_password-page-form-password-tip-text"><span className="dot"></span>{v}</div>
+                ))
+              }
             </div>
           </Fragment>)
       }
